@@ -23,7 +23,7 @@ const Single = () => {
     }
   })
 
-  const submithandler = (recipe) => {
+  const updatethandler = (recipe) => {
     const index = data.findIndex((recipe) => params.id == recipe.id)
     const copydata = [...data]
     copydata[index] = { ...copydata[index], ...recipe }
@@ -57,7 +57,7 @@ const Single = () => {
         <h1 className='text-2xl font-bold left'>{recipe.title}</h1>
         <img className='h-[25vh]' src={recipe.url} alt="" />
       </div>
-      <form onSubmit={handleSubmit(submithandler)} className="right w-1/2 p-2">
+      <form onSubmit={handleSubmit(updatehandler)} className="right w-1/2 p-2">
         <input
           {...register('url')} className="border-b block p-2 outline-0" type="url"
           placeholder="enter image url" />
