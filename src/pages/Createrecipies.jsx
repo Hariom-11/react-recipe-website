@@ -18,11 +18,10 @@ const Createrecipies = () => {
 
     const submithandler=(Cdata)=>{
         Cdata.id= nanoid()
-
         const copydata= [...data]
         copydata.push(Cdata)
         setdata(copydata)
-        // console.log(data)
+        localStorage.setItem("recipe", JSON.stringify(copydata))
         toast.success("recipe created sucessfully")
 
         reset()

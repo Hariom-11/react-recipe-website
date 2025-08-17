@@ -3,6 +3,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { recipecontext } from '../context/Recipecontext'
 import { useForm } from 'react-hook-form'
 import { toast } from 'react-toastify'
+import { useState } from 'react'
 
 const Single = () => {
   const { data, setdata } = useContext(recipecontext)
@@ -13,47 +14,68 @@ const Single = () => {
     register,
     handleSubmit,
     reset
-  } = useForm({
-    defaultValues: {
-      url: recipe.url,
-      title: recipe.title,
-      desc: recipe.desc,
-      ingr: recipe.ingr,
-      cat: recipe.cat
+  } = useForm(
+    {
+      defaultValues: {
+        url: recipe?.url,
+        title: recipe?.title,
+        desc: recipe?.desc,
+        ingr: recipe?.ingr,
+        cat: recipe?.cat
+      }
     }
-  })
+  )
 
-  const updatethandler = (recipe) => {
+  const updatehandler = (recipe) => {
     const index = data.findIndex((recipe) => params.id == recipe.id)
     const copydata = [...data]
     copydata[index] = { ...copydata[index], ...recipe }
     setdata(copydata)
+    localStorage.setItem("recipe", JSON.stringify(copydata))
     toast.success("updated sucessfully")
     console.log(copydata)
     // toast
   }
 
 
-
-
   const deletehandler = () => {
     const filterdata = data.filter((r) => r.id != params.id)
     setdata(filterdata)
+    localStorage.setItem("recipe", JSON.stringify(filterdata))
     toast.success("deleted successfuly")
     navigate('/recipies')
   }
 
-   useEffect(()=>{
-      console.log("single is mounted")
   
-      return ()=>{
-        console.log("single is unmounted")
-      }
-    },[])
 
-  return (
-    recipe ? <div className='w-full flex'>
-  clear    <div className='left w-1/2 p-2'>
+ 
+  const [favrate, setfavrate] = useState(JSON.parse(localStorage.getItem("fav"))|| [])
+
+  const FavHandler = () => {
+    const copyfav=[...favrate]
+    copyfav.push(recipe)
+    localStorage.setItem("fav", JSON.stringify(copyfav))
+  }
+  const UnFavHandler = () => {
+    const filterfav = favrate.filter((f) => f.id != recipe.id)
+    setfavrate(filterfav)
+    localStorage.setItem("fav", JSON.stringify(filterfav))
+  }
+  useEffect(() => {
+    console.log("single is mounted")
+
+    return () => {
+      console.log("single is unmounted")
+    }
+  }, [favrate])
+
+  return (recipe ?
+    <div className='w-full flex'>
+
+      <div className=' relative left w-1/2 p-2'>
+      {favrate.find((f) => f.id == recipe.id) ? <i onClick={UnFavHandler} className=" text-3xl p-10 absdolute right-[5%] text-red-400 ri-heart-3-fill"></i> : <i onClick={FavHandler} className="  text-3xl p-10 absolute right-[5%] text-red-400 ri-heart-3-line"></i>}
+
+
         <h1 className='text-2xl font-bold left'>{recipe.title}</h1>
         <img className='h-[25vh]' src={recipe.url} alt="" />
       </div>

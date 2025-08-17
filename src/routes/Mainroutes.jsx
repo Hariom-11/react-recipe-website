@@ -4,6 +4,8 @@ import Recipies from "../pages/Recipies"
 import About from "../pages/About"
 import Createrecipies from "../pages/Createrecipies"
 import Single from "../pages/Single"
+import PageNoteFound from "../pages/PageNoteFound"
+import Fav from "../pages/Fav"
 
 
 
@@ -16,6 +18,8 @@ const Mainroutes = () => {
         <Route path="/recipies/details/:id" element={<Single/>}/>
         <Route path="/create" element={<Createrecipies/>}/>
         <Route path="/about" element={<About/>}/>
+        <Route path="*" element={<PageNoteFound/>}/>
+        <Route path="/fav" element={<Fav/>}/>
     </Routes>
   )
 }
