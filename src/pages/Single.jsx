@@ -54,6 +54,7 @@ const Single = () => {
   const FavHandler = () => {
     const copyfav=[...favrate]
     copyfav.push(recipe)
+    setfavrate(copyfav)
     localStorage.setItem("fav", JSON.stringify(copyfav))
   }
   const UnFavHandler = () => {
